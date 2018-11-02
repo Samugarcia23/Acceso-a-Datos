@@ -1,0 +1,69 @@
+--ALMACENES LEO
+
+/*Una base de datos gestiona una serie de almacenes. En los almacenes se utilizan unos “contenedores” con medidas estandard.
+
+Cada almacén tiene una capacidad limitada, expresada por el número de contenedores que caben en él.
+
+Queremos una aplicación que asigne envíos a los almacenes según las siguientes reglas:
+
+Un envío se compone de uno o más contenedores.
+
+Cuando el envío completo no cabe en un almacén, debe reasignarse al almacén más cercano.
+
+El envío debe estar en un único almacén, no pueden separarse los contenedores de un mismo pedido en almacenes distintos
+
+Para ello, se consultará la tabla Envios y se comprobarán todos los envíos que tengan un valor NULL en la columna “Fecha Asignación”.
+
+Se comprobará si el envío cabe en el almacén que figure en la columna “Almacen Preferido” y caso de no ser así, se intentará derivarlo al almacén más cercano. 
+
+Si en este tampoco hubiese espacio, probaríamos en el segundo más cercano y así sucesivamente. Si no hubiera espacio suficiente en ninguno, se dejaría sin asignar.
+
+Para comprobar si el pedido cabe en un almacen se sumaran todos los contenedores de todos los pedidos de la la tabla “Asignaciones” que estén actualmente asignados a ese almacén
+
+y se restará esta cantidad de la capacidad del almacen. Para esto puede usarse una función
+
+Antes de asignarlo a un almacén alternativo, la aplicación pedirá confirmación al usuario, que decidirá si acepta la alternativa o deja el pedido sin asignar.
+
+Para comprobar si hay espacio, la aplicación intentará hacer una actualización (inserción en Asignaciones y actualizar fecha) asignándolo a un almacén 
+
+y si no hay espacio deberá lanzarse una excepción personalizada con RAISERROR. La excepción la lanzará un TRIGGER, que será el encargado de comprobar si hay espacio o no.*/
+
+/*Creacion de la base de datos y de sus tablas*/
+
+CREATE DATABASE AlmacenesLeo
+GO
+USE AlmacenesLeo
+GO
+
+CREATE TABLE Almacenes (
+ID Int NOT NULL CONSTRAINT PK_Almacenes Primary Key
+,Denominacion NVarChar (30) Not NULL
+,Direccion NVarChar (50) Not NULL
+,Capacidad BigInt Not NULL
+)
+
+GO
+CREATE TABLE Distancias (
+IDAlmacen1 Int NOT NULL
+,IDAlmacen2 Int NOT NULL
+,Distancia Int NOT NULL
+,CONSTRAINT PK_Distancias Primary Key (IDAlmacen1, IDAlmacen2)
+,CONSTRAINT FK_DistanciaAlmacen1 Foreign KEy (IDAlmacen1) REFERENCES Almacenes (ID)
+,CONSTRAINT FK_DistanciaAlmacen2 Foreign Key (IDAlmacen2) REFERENCES Almacenes (ID)
+)
+
+CREATE TABLE Envios (
+ID BigInt NOT NULL CONSTRAINT PK_Envios Primary Key
+,NumeroContenedores Int Not NULL DEFAULT 1
+,FechaCreacion DATE NOT NULL
+,FechaAsignacion DATE NULL
+,AlmacenPreferido Int NOT NULL
+)
+
+GO
+CREATE TABLE Asignaciones (
+IDEnvio BigInt NOT NULL CONSTRAINT PK_Asignaciones Primary Key
+,IDAlmacen Int NOT NULL
+,CONSTRAINT FK_AsignacionEnvio Foreign KEy (IDEnvio) REFERENCES Envios (ID)
+,CONSTRAINT FK_AsignacionAlmacen Foreign KEy (IDAlmacen) REFERENCES Almacenes (ID)
+)
