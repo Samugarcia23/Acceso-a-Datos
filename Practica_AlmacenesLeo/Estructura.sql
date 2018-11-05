@@ -28,6 +28,8 @@ Para comprobar si hay espacio, la aplicación intentará hacer una actualización (
 
 y si no hay espacio deberá lanzarse una excepción personalizada con RAISERROR. La excepción la lanzará un TRIGGER, que será el encargado de comprobar si hay espacio o no.*/
 
+
+
 /*Creacion de la base de datos y de sus tablas*/
 
 CREATE DATABASE AlmacenesLeo
