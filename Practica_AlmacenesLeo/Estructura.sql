@@ -10,20 +10,17 @@
 
 	Un envío se compone de uno o más contenedores.
 
-	Cuando el envío completo no cabe en un almacén, debe reasignarse al almacén más cercano---> Funcion para calular el almacen mas cercano al almacen lleno
-
-	El envío debe estar en un único almacén, no pueden separarse los contenedores de un mismo pedido en almacenes distintos
+	--El envío debe estar en un único almacén, no pueden separarse los contenedores de un mismo pedido en almacenes distintos
 	Para ello, se consultará la tabla Envios y se comprobarán todos los envíos que tengan un valor NULL en la columna “Fecha Asignación”.
 
 	Se comprobará si el envío cabe en el almacén que figure en la columna “Almacen Preferido” y caso de no ser así, se intentará derivarlo al almacén más cercano. 
 	Si en este tampoco hubiese espacio, probaríamos en el segundo más cercano y así sucesivamente. Si no hubiera espacio suficiente en ninguno, se dejaría sin asignar.
-
 	Para comprobar si el pedido cabe en un almacen se sumaran todos los contenedores de todos los pedidos de la la tabla “Asignaciones” que estén actualmente asignados a 
 	ese almacén y se restará esta cantidad de la capacidad del almacen. Para esto puede usarse una función
 
 	Antes de asignarlo a un almacén alternativo, la aplicación pedirá confirmación al usuario, que decidirá si acepta la alternativa o deja el pedido sin asignar.
 
-	Para comprobar si hay espacio, la aplicación intentará hacer una actualización (inserción en Asignaciones y actualizar fecha) asignándolo a un almacén 
+	--Para comprobar si hay espacio, la aplicación intentará hacer una actualización (inserción en Asignaciones y actualizar fecha) asignándolo a un almacén 
 	y si no hay espacio deberá lanzarse una excepción personalizada con RAISERROR. La excepción la lanzará un TRIGGER, que será el encargado de comprobar si hay espacio o no.
 */
 
@@ -51,6 +48,7 @@ GO
 /*
 	Tabla que guarda las distancias entre 2 almacenes y la guarda en la variable distancia, su id esta compuesta por la id de los 2 almacenes
 */
+
 CREATE TABLE Distancias (
 IDAlmacen1 Int NOT NULL
 ,IDAlmacen2 Int NOT NULL
@@ -74,6 +72,7 @@ ID BigInt NOT NULL CONSTRAINT PK_Envios Primary Key
 /*
 	Tabla para guardar las asignaciones de cada envio
 */
+
 GO
 CREATE TABLE Asignaciones (
 IDEnvio BigInt NOT NULL CONSTRAINT PK_Asignaciones Primary Key
@@ -81,6 +80,56 @@ IDEnvio BigInt NOT NULL CONSTRAINT PK_Asignaciones Primary Key
 ,CONSTRAINT FK_AsignacionEnvio Foreign KEy (IDEnvio) REFERENCES Envios (ID)
 ,CONSTRAINT FK_AsignacionAlmacen Foreign KEy (IDAlmacen) REFERENCES Almacenes (ID)
 )
+
+/*
+	Funcion que devuelva una tabla con los envios que no se hayan asignado (fecha asignacion) a un almacen (NULL)
+	Entradas: Ninguna
+	Salida: Tabla con los envios no asignados
+*/
+
+GO
+CREATE FUNCTION fnTablaEnviosSinAsignar () RETURNS TABLE
+AS
+		RETURN	(SELECT * 
+				FROM Envios 
+				WHERE FechaAsignacion IS NULL)
+GO
+
+--SELECT * FROM fnTablaEnviosSinAsignar()
+
+/*
+	Trigger quen se ejecuta al detectar que no hay espacio en un almacen
+*/
+
+GO
+CREATE TRIGGER NoHayEspacioEnElAlmacen ON Asignaciones AFTER INSERT
+AS
+	BEGIN
+		DECLARE @LLENO INT = (SELECT (Al.Capacidad - E.NumeroContenedores) 
+								FROM inserted AS A
+								INNER JOIN Almacenes AS Al ON A.IDAlmacen = Al.ID
+								INNER JOIN Envios AS E ON A.IDEnvio = E.ID)
+		IF (@LLENO < 0) 
+			BEGIN
+				RAISERROR ('Error, El almacen está lleno', 10, 1)
+				ROLLBACK TRANSACTION
+			END
+	END
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 	Funcion para calcular el almacen mas cercano
