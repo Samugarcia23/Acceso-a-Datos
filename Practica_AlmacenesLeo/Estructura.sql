@@ -92,10 +92,7 @@ GO
 CREATE FUNCTION fnCalcularAlmacenMasCercano (@IDAlmacen1 Bigint, @IDAlmacen2 Bigint) RETURNS Bigint
 AS
 	BEGIN
-		RETURN (SELECT ISNULL(ID,0) 
-				FROM Almacenes A
-				INNER JOIN Distancias D ON A.ID = D.IDAlmacen1
-				WHERE Min(Distancia) in (SELECT Distancia
+		RETURN (SELECT min(Distancia)
 				FROM Distancias
-				WHERE IDAlmacen1 = @IDAlmacen1 AND IDAlmacen2 = @IDAlmacen2))
+				WHERE IDAlmacen1 = @IDAlmacen1 AND IDAlmacen2 = @IDAlmacen2)
 	END
