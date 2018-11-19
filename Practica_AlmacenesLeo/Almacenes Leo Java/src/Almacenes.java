@@ -2,19 +2,19 @@
     Nombre:
         Almacenes
 
-    Descripción:
-        Programa que se usará para manejar los envíos de nuestra aplicación y base de datos
+    Descripciï¿½n:
+        Programa que se usarï¿½ para manejar los envï¿½os de nuestra aplicaciï¿½n y base de datos
 
-    Pseudocódigo Generalizado:
+    Pseudocï¿½digo Generalizado:
         Inicio
             Repetir
-                Mostrar menú *
-                Leer opción
-                Según (opcion)
-                    Caso 1: Mostrar envíos asignados
-                    Caso 2: Agregar envío
-                    Caso 3: Asignar envíos
-                Fin Según
+                Mostrar menï¿½ *
+                Leer opcion
+                Segun (opcion)
+                    Caso 1: Mostrar envï¿½os asignados
+                    Caso 2: Agregar envï¿½o
+                    Caso 3: Asignar envï¿½os
+                Fin Segï¿½n
             Mientras (opcion != 0)
         Fin
  */
@@ -45,21 +45,21 @@ public class Almacenes
                 GestoraMenus.MostrarMenuPrincipal();
                 opcion = teclado.nextInt();
                 if(opcion < 0 || opcion > 3)
-                    System.out.println("¡Solo entre 1 o 3, o 0 para salir!");
+                    System.out.println("Â¡Solo entre 1 o 3, o 0 para salir!");
             }while(opcion < 0 || opcion > 3);
 
             switch (opcion)
             {
                 case 1:
-                    gestoraEnvios.obtenerEnvios();
+                    gestoraEnvios.obtenerEnviosAsignados();
                     break;
 
                 case 2:
-                    System.out.println("En construcción");
+                    System.out.println("En construccion");
                     break;
 
                 case 3:
-                    System.out.println("En construcción");
+                    System.out.println("En construccion");
                     break;
             }
 

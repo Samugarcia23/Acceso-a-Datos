@@ -27,7 +27,7 @@ public class GestoraEnvios {
         return resultado;
     }
 
-    public void obtenerEnvios(){
+    public void obtenerEnviosAsignados(){
         String sentencia = "SELECT A.Denominacion, E.FechaAsignacion, E.NumeroContenedores FROM Envios AS E INNER JOIN Asignaciones AS ASI ON E.ID = ASI.IDEnvio INNER JOIN Almacenes AS A  ON ASI.IDAlmacen = A.ID WHERE FechaAsignacion IS NOT NULL";
         ResultSet rs = ejecutarQuery(sentencia);
         if(rs!=null)
@@ -36,12 +36,23 @@ public class GestoraEnvios {
             {
                 while(rs.next())
                 {
-                    System.out.println("Fecha de Asignacion: " + rs.getDate("FechaAsignacion").toString() + " | Nº Contenedores: "+rs.getInt("NumeroContenedores") + " | Nombre de Almacén: " + rs.getString("Denominacion"));
+                    System.out.println("Fecha de Asignacion: " + rs.getDate("FechaAsignacion").toString() + " | NÂº Contenedores: "+rs.getInt("NumeroContenedores") + " | Nombre de Almacen: " + rs.getString("Denominacion"));
                     System.out.println("");
                 }
             }catch(SQLException e) { e.printStackTrace(); }
         }
-
     }
-
+    
+    public ResultSet obtenerEnviosSinAsignar(){
+        String sentencia = "SELECT E.FechaAsignacion, E.NumeroContenedores, E.ID, E.AlmacenPreferido FROM Envios AS E INNER JOIN Asignaciones AS ASI ON E.ID = ASI.IDEnvio INNER JOIN Almacenes AS A  ON ASI.IDAlmacen = A.ID WHERE FechaAsignacion IS NULL";
+        ResultSet rs = ejecutarQuery(sentencia);
+        return rs;
+    }
+    
+    public boolean cabePedidoEnAlmacen(int idEnvio, int idAlmacen){
+        boolean cabe = false;
+        String sentencia = "SELECT * FROM fnCabePedidoEnAlmacen(?, ?)";
+        return cabe;
+    }
+    
 }

@@ -93,3 +93,8 @@ AS
 	END
 GO
 
+/*
+	Funcion que utiliza la funcion fnCabePedidoEnAlmacen para calcular si el pedido cabe en el Almacen preferido y en caso de no caber devuelve un bit = 0
+*/
+
+
