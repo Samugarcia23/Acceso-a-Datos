@@ -94,7 +94,18 @@ AS
 GO
 
 /*
-	Funcion que utiliza la funcion fnCabePedidoEnAlmacen para calcular si el pedido cabe en el Almacen preferido y en caso de no caber devuelve un bit = 0
+	Funcion que comprueba si la id introducida corresponde a un almacen de la base de datos
 */
 
+GO
+CREATE FUNCTION fnValidarIdAlmacen (@ID Bigint) RETURNS bit
+AS
+	BEGIN
+		DECLARE @ret bit = 0
+		IF (EXISTS (SELECT ID FROM Almacenes WHERE ID = @ID))
+			SET @ret = 1
+		RETURN @ret
+	END
+GO
 
+EXECUTE fnValidarIdAlmacen 10

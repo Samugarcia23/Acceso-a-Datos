@@ -24,6 +24,8 @@ import java.util.Scanner;
 
 import Gestoras.GestoraEnvios;
 import Gestoras.GestoraMenus;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Almacenes
 {
@@ -51,11 +53,19 @@ public class Almacenes
             switch (opcion)
             {
                 case 1:
+                    System.out.println("Envios Asignados: ");
+                    System.out.println(" ");
                     gestoraEnvios.obtenerEnviosAsignados();
                     break;
 
                 case 2:
-                    System.out.println("En construccion");
+            {
+                try {
+                    gestoraEnvios.agregarEnvioFormulario();
+                } catch (SQLException ex) {
+                    ex.getMessage();
+                }
+            }
                     break;
 
                 case 3:
