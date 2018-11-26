@@ -23,21 +23,6 @@
 	--Para comprobar si hay espacio, la aplicación intentará hacer una actualización (inserción en Asignaciones y actualizar fecha) asignándolo a un almacén 
 	--y si no hay espacio deberá lanzarse una excepción personalizada con RAISERROR. La excepción la lanzará un TRIGGER, que será el encargado de comprobar si hay espacio o no.
 */
-/*
-	Funcion que devuelva una tabla con los envios que no se hayan asignado (fecha asignacion) a un almacen (NULL)
-	Entradas: Ninguna
-	Salida: Tabla con los envios no asignados
-*/
-
-GO
-CREATE FUNCTION fnTablaEnviosSinAsignar () RETURNS TABLE
-AS
-		RETURN	(SELECT * 
-				FROM Envios 
-				WHERE FechaAsignacion IS NULL)
-GO
-
---SELECT * FROM fnTablaEnviosSinAsignar()
 
 /*
 	Trigger quen se ejecuta al detectar que no hay espacio en un almacen
@@ -108,4 +93,22 @@ AS
 	END
 GO
 
-EXECUTE fnValidarIdAlmacen 10
+/*
+	Funcion que comprueba si la id introducida corresponde a un envio sin asignar de la base de datos
+*/
+
+GO
+CREATE FUNCTION fnValidarIdEnvioSinAsignar (@ID Bigint) RETURNS bit
+AS
+	BEGIN
+		DECLARE @ret bit = 0
+		IF (EXISTS (SELECT ID FROM Envios WHERE ID = @ID AND FechaAsignacion IS NULL))
+			SET @ret = 1
+		RETURN @ret
+	END
+GO
+
+--SELECT dbo.fnValidarIdAlmacen(10) AS ret
+--INSERT INTO Envios(NumeroContenedores, FechaCreacion, AlmacenPreferido) VALUES (100, )ç
+
+SELECT * FROM Envios
