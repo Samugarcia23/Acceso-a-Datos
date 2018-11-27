@@ -105,17 +105,17 @@ INSERT INTO Asignaciones (IDEnvio,IDAlmacen)
 	 ,(20,10),(24,10),(28,20),(31,30),(33,30),(36,20),(38,30)
 GO
 
---SELECT * FROM Envios
---SELECT * FROM Almacenes
---SELECT dbo.fnCabePedidoEnAlmacen(1, 2) AS ret
+SELECT * FROM Envios
+SELECT * FROM Almacenes
+SELECT dbo.fnCabePedidoEnAlmacen(1, 2) AS ret
 
---SELECT D.disponible 
---	FROM 
---	(
---		SELECT A.ID, A.Capacidad, Sum(E.NumeroContenedores) AS Ocupado, A.Capacidad - Sum(E.NumeroContenedores) AS disponible 
---		From Almacenes AS A 
---		Inner Join Asignaciones As Ag ON A.ID = Ag.IDAlmacen
---		Inner Join Envios AS E ON Ag.IDEnvio = E.ID
---		Group By A.ID, A.Capacidad
---	) AS D
---	WHERE D.ID = 2
+SELECT D.disponible 
+	FROM 
+	(
+		SELECT A.ID, A.Capacidad, Sum(E.NumeroContenedores) AS Ocupado, A.Capacidad - Sum(E.NumeroContenedores) AS disponible 
+		From Almacenes AS A 
+		Inner Join Asignaciones As Ag ON A.ID = Ag.IDAlmacen
+		Inner Join Envios AS E ON Ag.IDEnvio = E.ID
+		Group By A.ID, A.Capacidad
+	) AS D
+	WHERE D.ID = 2

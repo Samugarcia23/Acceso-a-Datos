@@ -111,4 +111,4 @@ GO
 --SELECT dbo.fnValidarIdAlmacen(10) AS ret
 --INSERT INTO Envios(NumeroContenedores, FechaCreacion, AlmacenPreferido) VALUES (100, )ç
 
---SELECT * FROM Envios
+SELECT * FROM Envios
