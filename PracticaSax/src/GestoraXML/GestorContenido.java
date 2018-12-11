@@ -1,15 +1,27 @@
 package GestoraXML;
 
+import Clases.Disco;
+import GestoraBD.GestoraDiscos;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class GestorContenido extends DefaultHandler {
 
     public boolean esAutor, esTitulo, esFormato, esLocalizacion;
-    public String[] autor, titulo, formato, localizacion;
+    GestoraDiscos gestoraDiscos;
+    Disco disco = new Disco();
+
+    {
+        try {
+            gestoraDiscos = new GestoraDiscos();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public GestorContenido(){ super(); }
     @Override
@@ -34,35 +46,29 @@ public class GestorContenido extends DefaultHandler {
     @Override
     public void endElement(String uri, String nombre, String nombreC){
 
-        if (nombre.equals("autor")){
-            esAutor = false;
-        }
-        if (nombre.equals("titulo")){
-            esTitulo = false;
-        }
-        if (nombre.equals("formato")){
-            esFormato = false;
-        }
-        if (nombre.equals("localizacion")){
-            esLocalizacion = false;
+        if (nombre.equals("album")){
+            try {
+                gestoraDiscos.agregarDiscos(disco.getAutor(), disco.getTitulo(), disco.getFormato(), disco.getLocalizacion());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
     }
     @Override
     public void characters (char[] ch, int inicio, int longitud)
             throws SAXException {
-
         if (esAutor){
-            autor[0] = new String(ch, inicio, longitud);
+            disco.setAutor(new String(ch, inicio, longitud));
         }
         if (esTitulo){
-            titulo.add(new String(ch, inicio, longitud));
+            disco.setTitulo(new String(ch, inicio, longitud));
         }
         if (esFormato){
-            formato.add(new String(ch, inicio, longitud));
+            disco.setFormato(new String(ch, inicio, longitud));
         }
         if (esLocalizacion){
-            localizacion.add(new String(ch, inicio, longitud));
+            disco.setLocalizacion(new String(ch, inicio, longitud));
         }
     }
 
