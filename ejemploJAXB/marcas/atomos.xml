@@ -1,0 +1,35 @@
+<atomos xmlns="http://www.example.org/NewXMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/NewXMLSchema atomos.xsd">
+	
+	<atomo>
+		<nombre estado="liquido">Plata</nombre>
+		<simbolo>Ag</simbolo>
+		<numero_atomico>43 </numero_atomico>
+		<peso_atomico>21</peso_atomico>
+		<punto_ebullicion unidad="Celsius">2212</punto_ebullicion>
+		<densidad unidad="g/cm3">10.5</densidad>
+		
+	</atomo>
+	
+	<atomo>
+		<nombre estado="liquido">Cloro</nombre>
+		<simbolo>Cl</simbolo>
+		<numero_atomico>17</numero_atomico>
+		<peso_atomico>10</peso_atomico>
+		<punto_ebullicion unidad="Celsius">-34.7</punto_ebullicion>
+		<densidad unidad="g/cm3">1.56</densidad>
+		
+	</atomo>
+	
+	<atomo>
+		<nombre estado="liquido">Victorio</nombre>
+		<simbolo>Vc</simbolo>
+		<numero_atomico>100 </numero_atomico>
+		<peso_atomico>70</peso_atomico>
+		<punto_ebullicion unidad="Celsius">500</punto_ebullicion>
+		<densidad unidad="g/cm3">20</densidad>
+		
+	</atomo>
+
+
+
+</atomos>

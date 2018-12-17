@@ -1,0 +1,30 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="Corazoncitos" type="CorazoncitosType"/>
+    <xs:complexType name="GustoType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="Descripcion"/>
+            <xs:element type="xs:byte" name="Valor"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PreferenciasType">
+        <xs:sequence>
+            <xs:element type="GustoType" name="Gusto" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PersonaType">
+        <xs:sequence>
+            <xs:element type="xs:short" name="ID"/>
+            <xs:element type="xs:string" name="nombre"/>
+            <xs:element type="xs:string" name="sexo"/>
+            <xs:element type="xs:string" name="sexoBuscado"/>
+            <xs:element type="xs:date" name="fechaNacimiento"/>
+            <xs:element type="xs:float" name="ingresos"/>
+            <xs:element type="PreferenciasType" name="Preferencias"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CorazoncitosType">
+        <xs:sequence>
+            <xs:element type="PersonaType" name="Persona" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

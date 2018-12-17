@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/NewXMLSchema" xmlns:tns="http://www.example.org/NewXMLSchema"
+	elementFormDefault="qualified">
+
+	<xs:element name="atomos">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="atomo" minOccurs="1" maxOccurs="unbounded" type="tns:atomo">
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="atomo">
+		<xs:sequence>
+			<xs:element name="nombre" minOccurs="1" type="xs:string">
+			</xs:element>
+			<xs:element name="simbolo" minOccurs="1" type="xs:string">
+			</xs:element>
+			<xs:element name="numero_atomico" minOccurs="1" type="xs:double">
+			</xs:element>
+			<xs:element name="peso_atomico" minOccurs="1" type="xs:double">
+			</xs:element>
+			<xs:element name="punto_ebullicion" minOccurs="1"
+				type="tns:ebullicionType">
+			</xs:element>
+			<xs:element name="densidad" minOccurs="1" type="tns:densidadType">
+			</xs:element>
+		</xs:sequence>
+		
+		<xs:attribute name="estado" type="xs:string" default="liquido" />
+		
+	</xs:complexType>
+
+
+
+	<xs:complexType name="densidadType">
+		<xs:simpleContent>
+			<xs:extension base="xs:double">
+				<xs:attribute name="unidad" type="tns:densidadesType"  use="required"/>	
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:simpleType name="densidadesType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="g/cm3"/>
+			<xs:enumeration value="Kg/L"/>
+			<xs:enumeration value="Kg/m3"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<xs:complexType name="ebullicionType">
+		<xs:attribute name="unidad" type="tns:tipoGrado" use="required" />
+	</xs:complexType>
+
+	<xs:simpleType name="tipoGrado">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Celsius"/>
+			<xs:enumeration value="Farenheit"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+
+
+
+</xs:schema>

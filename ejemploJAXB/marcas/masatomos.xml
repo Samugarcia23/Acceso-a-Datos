@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<atomos xmlns="http://www.example.org/NewXMLSchema">
+    <atomo>
+        <nombre>Plata</nombre>
+        <simbolo>Ag</simbolo>
+        <numero_atomico>43.0</numero_atomico>
+        <peso_atomico>21.0</peso_atomico>
+        <punto_ebullicion unidad="Celsius"/>
+        <densidad unidad="g/cm3">10.5</densidad>
+    </atomo>
+    <atomo>
+        <nombre>Cloro</nombre>
+        <simbolo>Cl</simbolo>
+        <numero_atomico>17.0</numero_atomico>
+        <peso_atomico>10.0</peso_atomico>
+        <punto_ebullicion unidad="Celsius"/>
+        <densidad unidad="g/cm3">1.56</densidad>
+    </atomo>
+    <atomo>
+        <nombre>Victorio</nombre>
+        <simbolo>Vc</simbolo>
+        <numero_atomico>100.0</numero_atomico>
+        <peso_atomico>70.0</peso_atomico>
+        <punto_ebullicion unidad="Celsius"/>
+        <densidad unidad="g/cm3">20.0</densidad>
+    </atomo>
+    <atomo>
+        <nombre>Mentirio</nombre>
+        <simbolo>Mt</simbolo>
+        <numero_atomico>111.0</numero_atomico>
+        <peso_atomico>0.0</peso_atomico>
+    </atomo>
+</atomos>
