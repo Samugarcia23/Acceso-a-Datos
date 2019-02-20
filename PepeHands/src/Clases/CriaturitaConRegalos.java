@@ -1,7 +1,14 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Clases;
-// Generated 01-feb-2019 14:10:32 by Hibernate Tools 4.3.1
 
-
+/**
+ *
+ * @author sgarcia
+ */
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -9,33 +16,38 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 
 @Entity
 @Table(name="Criaturitas"
 )
-public class Criaturitas  implements java.io.Serializable {
+public class CriaturitaConRegalos  implements java.io.Serializable {
 
     @Id 
+
     @Column(name="Id", nullable=false)	
      private byte id;
      
     @Column(name="Nombre")     
      private String nombre;
+
     
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="GoesTo")
-    private List<Regalos> regalitos = new ArrayList<>();
+    private List<RegaloParaCriaturitaConRegalos> regalitos = new ArrayList<>();
+    
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+     private List<Cuento> listaCuentos=new ArrayList();
 
-    public Criaturitas() {
+    public CriaturitaConRegalos() {
     }
 
-    public Criaturitas(byte id) {
+    public CriaturitaConRegalos(byte id) {
         this.id = id;
     }
-    public Criaturitas(byte id, String nombre) {
+    public CriaturitaConRegalos(byte id, String nombre) {
        this.id = id;
        this.nombre = nombre;
     }
@@ -56,12 +68,19 @@ public class Criaturitas  implements java.io.Serializable {
         this.nombre = nombre;
     }
 
-    public List<Regalos> getRegalitos() {
+    public List<RegaloParaCriaturitaConRegalos> getRegalitos() {
         return regalitos;
     }
 
-    public void setRegalitos(List<Regalos> regalitos) {
+    public void setRegalitos(List<RegaloParaCriaturitaConRegalos> regalitos) {
         this.regalitos = regalitos;
+    }
+    public List<Cuento> getListaCuentos() {
+        return listaCuentos;
+    }
+
+    public void setListaCuentos(List<Cuento> listaCuentos) {
+        this.listaCuentos = listaCuentos;
     }
     @Override
     public String toString() {

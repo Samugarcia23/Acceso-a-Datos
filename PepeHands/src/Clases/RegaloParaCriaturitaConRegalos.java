@@ -1,7 +1,14 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Clases;
-// Generated 01-feb-2019 14:10:32 by Hibernate Tools 4.3.1
 
-
+/**
+ *
+ * @author sgarcia
+ */
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Column;
@@ -12,14 +19,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name="Regalos")
-public class Regalos implements Serializable {
+@Table(name="Regalos"
+)
+public class RegaloParaCriaturitaConRegalos implements Serializable {
     @Id 
 
     @Column(name="Id", nullable=false)	    
-    private byte id;
+    private int id;
     
     @Column(name="Denominacion")
     private String denominacion;
@@ -43,13 +50,15 @@ public class Regalos implements Serializable {
     private BigDecimal precio;
     
     @ManyToOne
-    @JoinColumn(name = "GoesTo", foreignKey = @ForeignKey(name = "FK_RegalosCriaturitas") )
-    private Criaturitas propietario;
+    @JoinColumn(name = "GoesTo",
+            foreignKey = @ForeignKey(name = "FK_RegalosCriaturitas")
+    )
+    private CriaturitaConRegalos propietario;
 
-    public Regalos() {
+    public RegaloParaCriaturitaConRegalos() {
     }
     
-    public byte getId() {
+    public int getId() {
         return id;
     }
 
@@ -81,11 +90,11 @@ public class Regalos implements Serializable {
         return precio;
     }
 
-    public Criaturitas getPropietario() {
+    public CriaturitaConRegalos getPropietario() {
         return propietario;
     }
 // Setters
-    public void setId(byte id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -117,7 +126,7 @@ public class Regalos implements Serializable {
         this.precio = precio;
     }
 
-    public void setPropietario(Criaturitas propietario) {
+    public void setPropietario(CriaturitaConRegalos propietario) {
         this.propietario = propietario;
     }
     @Override
@@ -125,3 +134,4 @@ public class Regalos implements Serializable {
         return "Regalo: Denominacion: "+denominacion+"\nAncho: "+ancho+"\nLargo: "+alto+"\nTipo: "+tipo+"\nEdad mínima: "+edadMinima+"\nPrecio: "+precio;
     }
 }
+
