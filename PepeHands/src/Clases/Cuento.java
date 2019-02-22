@@ -28,7 +28,7 @@ public class Cuento implements Serializable{
     
 //    @ManyToMany(targetEntity = Criaturita.class,cascade = {CascadeType.ALL},mappedBy="listaCuentos")
     @ManyToMany(mappedBy = "listaCuentos")
-    private List<CriaturitaConRegalos> listaLectores = new ArrayList();
+    private List<Criaturitas> listaLectores = new ArrayList();
 
     public Cuento() {
     }
@@ -49,7 +49,7 @@ public class Cuento implements Serializable{
         return tema;
     }
 
-    public List<CriaturitaConRegalos> getListaLectores() {
+    public List<Criaturitas> getListaLectores() {
         return listaLectores;
     }
 
@@ -69,7 +69,7 @@ public class Cuento implements Serializable{
         this.tema = tema;
     }
 
-    public void setListaLectores(List<CriaturitaConRegalos> listaLectores) {
+    public void setListaLectores(List<Criaturitas> listaLectores) {
         this.listaLectores = listaLectores;
     }
 

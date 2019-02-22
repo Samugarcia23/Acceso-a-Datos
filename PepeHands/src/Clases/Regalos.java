@@ -19,7 +19,7 @@ public class Regalos implements Serializable {
     @Id 
 
     @Column(name="Id", nullable=false)	    
-    private byte id;
+    private int id;
     
     @Column(name="Denominacion")
     private String denominacion;
@@ -43,13 +43,15 @@ public class Regalos implements Serializable {
     private BigDecimal precio;
     
     @ManyToOne
-    @JoinColumn(name = "GoesTo", foreignKey = @ForeignKey(name = "FK_RegalosCriaturitas") )
+    @JoinColumn(name = "GoesTo",
+            foreignKey = @ForeignKey(name = "FK_RegalosCriaturitas")
+    )
     private Criaturitas propietario;
 
     public Regalos() {
     }
     
-    public byte getId() {
+    public int getId() {
         return id;
     }
 
@@ -85,7 +87,7 @@ public class Regalos implements Serializable {
         return propietario;
     }
 // Setters
-    public void setId(byte id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -120,6 +122,7 @@ public class Regalos implements Serializable {
     public void setPropietario(Criaturitas propietario) {
         this.propietario = propietario;
     }
+    
     @Override
     public String toString(){
         return "Regalo: Denominacion: "+denominacion+"\nAncho: "+ancho+"\nLargo: "+alto+"\nTipo: "+tipo+"\nEdad mínima: "+edadMinima+"\nPrecio: "+precio;

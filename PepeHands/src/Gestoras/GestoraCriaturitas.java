@@ -29,29 +29,28 @@ public class GestoraCriaturitas {
         Query query = session.createQuery(hqlQuery);
         ArrayList<Criaturitas> listado = new ArrayList<>(query.list());
         for(Criaturitas criaturita : listado)
-            System.out.println("Id: " + criaturita.getId() + "\n Nombre: " + criaturita.getNombre() + "\n Regalitos: " + criaturita.getRegalitos() + "\n");
-            
+            System.out.println("\n Id: " + criaturita.getId() + "\n Nombre: " + criaturita.getNombre() + "\n Regalitos: \n" + criaturita.getRegalitos() + "\n");     
     }
     
     //Recuperar una criaturita con todos sus regalos
     
     public static void recuperarCriaturitaConTodosSusRegalos(){
-        String hqlQuery = "FROM Criaturitas where Nombre = 'Adela'";
+        String hqlQuery = "FROM Criaturitas WHERE Nombre = 'Adela'";
         Query query = session.createQuery(hqlQuery);
         ArrayList<Criaturitas> listado = new ArrayList<>(query.list());
         for(Criaturitas criaturita : listado)
-            System.out.println("Id: " + criaturita.getId() + "\n Nombre: " + criaturita.getNombre() + "\n Regalitos: " + criaturita.getRegalitos() + "\n");
+            System.out.println("\n Id: " + criaturita.getId() + "\n Nombre: " + criaturita.getNombre() + "\n Regalitos: \n" + criaturita.getRegalitos() + "\n");
     }
     
     //Quitar un regalo a una criaturita (sin borrarlo)
     
-    public void quitarRegaloaUnaCriaturita(){
+    public void quitarRegaloAUnaCriaturita(){
         
     }
     
     //Asignar un regalo a una criaturita (o ninguna)
     
-    public void asignarRegaloaUnaCriaturita(){
+    public void asignarRegaloAUnaCriaturita(){
         
     }
     
@@ -63,7 +62,7 @@ public class GestoraCriaturitas {
     
     //Borrar una criaturita y todos sus regalos
     
-    public void borrarUnaCriaturitayTodosSusRegalos(){
+    public void borrarUnaCriaturitaYTodosSusRegalos(){
         
     }
 }

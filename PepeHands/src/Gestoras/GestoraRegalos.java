@@ -28,7 +28,7 @@ public class GestoraRegalos {
         Query query = session.createQuery(hqlQuery);
         ArrayList<Regalos> listado = new ArrayList<>(query.list());
         for(Regalos regalo : listado)
-            System.out.println("Id: " + regalo.getId()+" Denominacion: "+regalo.getDenominacion()+" Ancho: "+regalo.getAncho()+" Largo: "+regalo.getLargo()+" Alto: "+regalo.getAlto()+" Tipo: "+regalo.getTipo()+" Edad mínima: "+regalo.getEdadMinima()+" Precio: "+regalo.getPrecio() + "\n");
+            System.out.println("\n Id: " + regalo.getId()+"\n Denominacion: "+regalo.getDenominacion()+"\n Ancho: "+regalo.getAncho()+"\n Largo: "+regalo.getLargo()+"\n Alto: "+regalo.getAlto()+"\n Tipo: "+regalo.getTipo()+"\n Edad mínima: "+regalo.getEdadMinima()+"\n Precio: "+regalo.getPrecio() + "\n");
     }
     
     //Crear un nuevo regalo

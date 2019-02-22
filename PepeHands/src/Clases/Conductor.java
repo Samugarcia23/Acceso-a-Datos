@@ -28,14 +28,14 @@ public class Conductor {
     }
     private static void recuperaCriaturitaConRegalos(Session s, byte id){
  
-        CriaturitaConRegalos nene;
+        Criaturitas nene;
      
-        nene = (CriaturitaConRegalos)s.get(CriaturitaConRegalos.class, id);
+        nene = (Criaturitas)s.get(Criaturitas.class, id);
         System.out.println();
         System.out.println(nene.toString());
         System.out.println("Regalos");
         int cont = 1;
-        for(RegaloParaCriaturitaConRegalos surprise:nene.getRegalitos()){
+        for(Regalos surprise:nene.getRegalitos()){
             System.out.println(cont+" -> "+surprise.toString());
             cont++;
         }
