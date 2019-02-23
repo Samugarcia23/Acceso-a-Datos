@@ -32,6 +32,13 @@ public class Cuento implements Serializable{
 
     public Cuento() {
     }
+    
+    public Cuento(int id, String titulo, String autor, String tema) {
+        this.id = id;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.tema = tema;
+    }
 
     public int getId() {
         return id;
