@@ -48,27 +48,27 @@ public class MainMenu {
                     break;
 
                 case 4:
-                    System.out.println("EN PROCESO");
+                    GestoraCriaturitas.quitarRegaloAUnaCriaturita();
                     break;
 
                 case 5:
-                    System.out.println("EN PROCESO");
+                    GestoraCriaturitas.asignarRegaloAUnaCriaturita();
                     break;
 
                 case 6:
-                    System.out.println("EN PROCESO");
+                    GestoraCriaturitas.crearNuevaCriaturita();
                     break;
 
                 case 7:
-                    System.out.println("EN PROCESO");
+                    GestoraRegalos.crearUnNuevoRegalo();
                     break;
 
                 case 8:
-                    System.out.println("EN PROCESO");
+                    GestoraRegalos.borrarUnRegalo();
                     break;
 
                 case 9:
-                    System.out.println("EN PROCESO");
+                    GestoraCriaturitas.borrarUnaCriaturitaYTodosSusRegalos();
                     break;
                     
                 case 10:
@@ -84,19 +84,19 @@ public class MainMenu {
                     break;
 
                 case 13:
-                    System.out.println("EN PROCESO");
+                    GestoraCuentos.quitarCuentoAUnaCriaturita();
                     break;
 
                 case 14:
-                    System.out.println("EN PROCESO");
+                    GestoraCuentos.asignarCuentoAUnaCriaturita();
                     break;
 
                 case 15:
-                    System.out.println("EN PROCESO");
+                    GestoraCuentos.crearCuento();
                     break;
 
                 case 16:
-                    System.out.println("EN PROCESO");
+                    GestoraCuentos.borrarCuento();
                     break;
                     
             }

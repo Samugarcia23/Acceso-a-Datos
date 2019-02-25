@@ -51,7 +51,7 @@ public class Regalos implements Serializable {
     public Regalos() {
     }
     
-    public Regalos(int id, String denominacion, int ancho, int largo, int alto, int edad, BigDecimal precio) {
+    public Regalos(int id, String denominacion, int ancho, int largo, int alto, int edad, BigDecimal precio, char tipo) {
         this.id = id;
         this.denominacion = denominacion;
         this.ancho = ancho;
@@ -59,6 +59,7 @@ public class Regalos implements Serializable {
         this.alto = alto;
         this.edadMinima = edad;
         this.precio = precio;
+        this.tipo = tipo;
     }
     
     public int getId() {

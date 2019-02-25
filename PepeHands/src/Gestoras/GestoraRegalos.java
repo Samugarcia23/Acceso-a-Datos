@@ -39,11 +39,12 @@ public class GestoraRegalos {
     
     //Crear un nuevo regalo
     
-    public void crearUnNuevoRegalo(){
+    public static void crearUnNuevoRegalo(){
         Transaction transaction = session.beginTransaction();
         Scanner sc = new Scanner(System.in);
         String nombreRegalo;
-        int idRegalo = 0, ancho, largo, alto, edadMinima;
+        int idRegalo, ancho, largo, alto, edadMinima;
+        char tipo;
         BigDecimal precio;
         
         do{
@@ -87,13 +88,22 @@ public class GestoraRegalos {
             if (precio.compareTo(BigDecimal.ZERO) == 0 || precio.compareTo(BigDecimal.ZERO) < 0)
                 System.out.println("Error, introduce un valor correcto!");
         }while(precio.compareTo(BigDecimal.ZERO) == 0 || precio.compareTo(BigDecimal.ZERO) < 0);
+        
+        do{
+            System.out.println("Introduce el tipo de tu nuevo Regalito: ");
+            tipo = sc.next().charAt(0);
+            tipo = Character.toUpperCase(tipo);
+            if (tipo == ' ')
+                System.out.println("Error, introduce un valor correcto!");
+        }while(tipo == ' ');
 
         //El id del Regalito es el siguiente al mas alto
         
-        Query query = session.createQuery("SELECT MAX(id) FROM Regalos");
-        query.setInt("id", idRegalo + 1);
+        idRegalo = (int) session.createQuery("SELECT MAX(id) FROM Regalos").uniqueResult();
         
-        Regalos regalo = new Regalos(idRegalo, nombreRegalo, ancho, largo, alto, edadMinima, precio); 
+        idRegalo++;
+        
+        Regalos regalo = new Regalos(idRegalo, nombreRegalo, ancho, largo, alto, edadMinima, precio, tipo); 
         session.save(regalo);
         transaction.commit(); 
         
@@ -102,7 +112,7 @@ public class GestoraRegalos {
     
     //Borrar un regalo
     
-    public void borrarUnRegalo(){
+    public static void borrarUnRegalo(){
         Transaction transaction = session.beginTransaction();
         Scanner sc = new Scanner(System.in);
         List<Regalos> listadoRegalos;

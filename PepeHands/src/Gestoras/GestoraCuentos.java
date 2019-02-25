@@ -39,21 +39,59 @@ public class GestoraCuentos {
     //Recuperar una criaturita con todos sus cuentos
     
     public static void recuperarCriaturitaConTodosSusCuentos(){
-        String hqlQuery = "FROM Criaturitas WHERE Nombre = 'Adela'";
-        Query query = session.createQuery(hqlQuery);
-        ArrayList<Criaturitas> listado = new ArrayList<>(query.list());
-        for(Criaturitas criaturita : listado)
-            System.out.println("\n Id: " + criaturita.getId() + "\n Nombre: " + criaturita.getNombre() + "\n Cuentos: \n" + criaturita.getListaCuentos()+ "\n");
+        Scanner sc = new Scanner(System.in);
+        List<Criaturitas> listadoCriaturitas;
+        byte idCriaturita = 0;
+   
+        //Listamos las criaturitas para que el usuario las vea
+        
+        listadoCriaturitas = (List<Criaturitas>)session.createQuery("FROM Criaturitas").list();
+        listadoCriaturitas.stream().forEach((cr) -> {
+            System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre() + "\n Cuento/s: " + cr.getListaCuentos());
+        });
+
+        do{ 
+            System.out.println("Elige una Criaturita introduciendo su Id: ");
+            idCriaturita = sc.nextByte(); 
+            if (idCriaturita<0){
+                System.out.println("Error, Introduce un Id Correcto!");
+            }
+        }while(idCriaturita<0);
+
+        Query query = session.createQuery("FROM Criaturitas WHERE id = :id");
+        query.setByte("id", idCriaturita);
+        Criaturitas criaturitaSeleccionada = (Criaturitas)query.uniqueResult();
+        
+        System.out.println("\n ID: "+criaturitaSeleccionada.getId()+"\n Nombre:"+criaturitaSeleccionada.getNombre() + "\n Cuento/s: " + criaturitaSeleccionada.getListaCuentos() + "\n");
     }
     
     //Recuperar un Cuento y su lista de lectores
     
     public static void recuperarCuentosYListaDeLectores(){
-        String hqlQuery = "FROM Cuento Where Id = 1";
-        Query query = session.createQuery(hqlQuery);
-        ArrayList<Cuento> listado = new ArrayList<>(query.list());
-        for(Cuento cuento : listado)
+        Scanner sc = new Scanner(System.in);
+        List<Cuento> listadoCuentos;
+        int idCuento;
+   
+        //Listamos las criaturitas para que el usuario las vea
+        
+        listadoCuentos = (List<Cuento>)session.createQuery("FROM Cuento").list();
+        listadoCuentos.stream().forEach((cuento) -> {
             System.out.println("\n Id: " + cuento.getId()+"\n Titulo: "+cuento.getTitulo()+"\n Autor: "+cuento.getAutor()+"\n Tema: "+cuento.getTema()+"\n Lectores: \n"+cuento.getListaLectores() + "\n");
+        });
+
+        do{ 
+            System.out.println("Elige un Cuento introduciendo su Id: ");
+            idCuento = sc.nextByte(); 
+            if (idCuento<0){
+                System.out.println("Error, Introduce un Id Correcto!");
+            }
+        }while(idCuento<0);
+
+        Query query = session.createQuery("FROM Cuento WHERE id = :id");
+        query.setInteger("id", idCuento);
+        Cuento cuentoSeleccionado = (Cuento)query.uniqueResult();
+        
+        System.out.println("\n Id: " + cuentoSeleccionado.getId() + "\n Titulo: "+cuentoSeleccionado.getTitulo() + "\n Lectores: \n" + cuentoSeleccionado.getListaLectores() + "\n");       
     }
     
     //Quitar un cuento a una criaturita
@@ -70,7 +108,7 @@ public class GestoraCuentos {
         
         listadoCriaturitas = (List<Criaturitas>)session.createQuery("FROM Criaturitas").list();
         listadoCriaturitas.stream().forEach((cr) -> {
-            System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre());
+            System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre() + "\n Cuento/s: " + cr.getListaCuentos());
         });
 
         do{ 
@@ -87,44 +125,50 @@ public class GestoraCuentos {
         
         //Listamos los cuentos de la Criaturita seleccionada
         
-        System.out.println(criaturitaSeleccionada.toString());
-        criaturitaSeleccionada.getListaCuentos().stream().forEach((cuento) -> {
-            System.out.println("Id: " + cuento.getId() + " Titulo: " + cuento.getTitulo()); 
-        });
+        if (!criaturitaSeleccionada.getListaCuentos().isEmpty()){
+            
+            System.out.println(criaturitaSeleccionada.toString());
+            
+            System.out.println("Cuento/s: ");
+            criaturitaSeleccionada.getListaCuentos().stream().forEach((cuento) -> {
+                System.out.println("Id: " + cuento.getId() + " Titulo: " + cuento.getTitulo()); 
+            });
 
-        do{
-            System.out.println("Selecciona el Cuento que le quieres quitar introduciendo su Id: ");
-            idCuento = sc.nextInt();
-            if (idCuento<0){
-                System.out.println("Error, Introduce un Id Correcto!");
-            }
-        }while(idCuento<0);
-        
-        //Quitamos el Cuento a la Criaturita :(
-        
-        for(int i=0; i<criaturitaSeleccionada.getListaCuentos().size();i++)
-        {
-            Cuento cuento = criaturitaSeleccionada.getListaCuentos().get(i);
-            if(cuento.getId()==idCuento) {
-                criaturitaSeleccionada.getListaCuentos().remove(i);
-                break; //DUDAS
-            }
-        }
-        
-        //Quitamos el lector del Cuento
-        
-        Query query = session.createQuery("FROM Cuento WHERE id = :id");
-        query.setInteger("id", idCuento);
-        Cuento cuento = (Cuento)query.uniqueResult();
-        for (int i=0; i<cuento.getListaLectores().size();i++){
-            if(cuento.getId() == idCuento) {
-                cuento.getListaLectores().remove(i);
-            }
-        }
+            do{
+                System.out.println("Selecciona el Cuento que le quieres quitar introduciendo su Id: ");
+                idCuento = sc.nextInt();
+                if (idCuento<0){
+                    System.out.println("Error, Introduce un Id Correcto!");
+                }
+            }while(idCuento<0);
 
+            //Quitamos el Cuento a la Criaturita :(
+
+            for(int i=0; i<criaturitaSeleccionada.getListaCuentos().size();i++)
+            {
+                Cuento cuento = criaturitaSeleccionada.getListaCuentos().get(i);
+                if(cuento.getId()==idCuento) {
+                    criaturitaSeleccionada.getListaCuentos().remove(i);
+                    break; //DUDAS
+                }
+            }
+
+            //Quitamos el lector del Cuento
+
+            query = session.createQuery("FROM Cuento WHERE id = :id");
+            query.setInteger("id", idCuento);
+            Cuento cuento = (Cuento)query.uniqueResult();
+            for (int i=0; i<cuento.getListaLectores().size();i++){
+                if(cuento.getId() == idCuento) {
+                    cuento.getListaLectores().remove(i);
+                }
+            }
+
+            System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE ///////////////////");
+        }else
+            System.out.println("La Criaturita no tiene Cuentos :( \n");
+        
         transaction.commit();
-        
-        System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE ///////////////////");
         
     }
     
@@ -143,7 +187,7 @@ public class GestoraCuentos {
         
         listadoCriaturitas = (List<Criaturitas>)session.createQuery("FROM Criaturitas").list();
         listadoCriaturitas.stream().forEach((cr) -> {
-            System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre());
+            System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre() + "\n Cuento/s: " + cr.getListaCuentos());
         });
 
         do{ 
@@ -200,7 +244,7 @@ public class GestoraCuentos {
         Transaction transaction = session.beginTransaction();
         Scanner sc = new Scanner(System.in);
         String titulo, autor, tema;
-        Byte idCuento = 0;
+        int idCuento;
         
         do{
             System.out.println("Introduce el titulo de tu nuevo Cuento: ");
@@ -225,8 +269,9 @@ public class GestoraCuentos {
         
         //El id de la Criaturita es el siguiente al mas alto
         
-        Query query = session.createQuery("SELECT MAX(id) FROM Cuento");
-        query.setByte("id", idCuento + 1);
+        idCuento = (int) session.createQuery("SELECT MAX(id) FROM Cuento").uniqueResult();
+        
+        idCuento++;
         
         Cuento cuento = new Cuento(idCuento, titulo, autor, tema); 
         session.save(cuento);

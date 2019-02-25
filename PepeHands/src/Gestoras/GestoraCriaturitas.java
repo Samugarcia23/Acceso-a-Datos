@@ -8,7 +8,6 @@ package Gestoras;
 import Clases.Criaturitas;
 import Clases.Regalos;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import org.hibernate.Session;
@@ -39,16 +38,36 @@ public class GestoraCriaturitas {
     //Recuperar una criaturita con todos sus regalos
     
     public static void recuperarCriaturitaConTodosSusRegalos(){
-        String hqlQuery = "FROM Criaturitas WHERE Nombre = 'Adela'";
-        Query query = session.createQuery(hqlQuery);
-        ArrayList<Criaturitas> listado = new ArrayList<>(query.list());
-        for(Criaturitas criaturita : listado)
-            System.out.println("\n Id: " + criaturita.getId() + "\n Nombre: " + criaturita.getNombre() + "\n Regalitos: \n" + criaturita.getRegalitos() + "\n");
+        Scanner sc = new Scanner(System.in);
+        List<Criaturitas> listadoCriaturitas;
+        byte idCriaturita = 0;
+   
+        //Listamos las criaturitas para que el usuario las vea
+        
+        listadoCriaturitas = (List<Criaturitas>)session.createQuery("FROM Criaturitas").list();
+        listadoCriaturitas.stream().forEach((cr) -> {
+            System.out.println("\n Id: " + cr.getId() + "\n Nombre: " + cr.getNombre() + "\n Regalitos: \n" + cr.getRegalitos() + "\n");              
+        });
+
+        do{ 
+            System.out.println("Elige una Criaturita introduciendo su Id: ");
+            idCriaturita = sc.nextByte(); 
+            if (idCriaturita<0){
+                System.out.println("Error, Introduce un Id Correcto!");
+            }
+        }while(idCriaturita<0);
+
+        Query query = session.createQuery("FROM Criaturitas WHERE id = :id");
+        query.setByte("id", idCriaturita);
+        Criaturitas criaturitaSeleccionada = (Criaturitas)query.uniqueResult();
+        
+        System.out.println("\n Id: " + criaturitaSeleccionada.getId() + "\n Nombre: " + criaturitaSeleccionada.getNombre() + "\n Regalitos: \n" + criaturitaSeleccionada.getRegalitos() + "\n");              
+        
     }
     
     //Quitar un regalo a una criaturita (sin borrarlo)
     
-    public void quitarRegaloAUnaCriaturita(){
+    public static void quitarRegaloAUnaCriaturita(){
         Transaction transaction = session.beginTransaction();
         Scanner sc = new Scanner(System.in);
         List<Criaturitas> listadoCriaturitas;
@@ -60,7 +79,7 @@ public class GestoraCriaturitas {
         
         listadoCriaturitas = (List<Criaturitas>)session.createQuery("FROM Criaturitas").list();
         listadoCriaturitas.stream().forEach((cr) -> {
-            System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre());
+            System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre() + "\n Regalito/s: " + cr.getRegalitos());
         });
 
         do{ 
@@ -76,13 +95,16 @@ public class GestoraCriaturitas {
         Criaturitas criaturitaSeleccionada = (Criaturitas)query.uniqueResult();
         
         //Listamos los regalos de la Criaturita seleccionada
+        if (!criaturitaSeleccionada.getRegalitos().isEmpty()){
+            
+            System.out.println(criaturitaSeleccionada.toString() + "\n");
         
-        System.out.println(criaturitaSeleccionada.toString());
-        criaturitaSeleccionada.getRegalitos().stream().forEach((regalo) -> {
-            System.out.println("Id: " + regalo.getId() + " Denominacion: " + regalo.getDenominacion()); 
-        });
-
-        do{
+            System.out.println("Regalito/s: ");
+            criaturitaSeleccionada.getRegalitos().stream().forEach((regalo) -> {
+                System.out.println("Id: " + regalo.getId() + " Denominacion: " + regalo.getDenominacion() + "\n"); 
+            });
+        
+            do{
             System.out.println("Selecciona el Regalito que le quieres quitar introduciendo su Id: ");
             idRegalo = sc.nextInt();
             if (idRegalo<0){
@@ -103,19 +125,22 @@ public class GestoraCriaturitas {
         
         //Quitamos el propietario del Regalito
         
-        Query query = session.createQuery("FROM Regalos WHERE id = :id");
+        query = session.createQuery("FROM Regalos WHERE id = :id");
         query.setInteger("id", idRegalo);
         Regalos regalo = (Regalos)query.uniqueResult();
         regalo.setPropietario(null);
-
-        transaction.commit();
         
-        System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE ///////////////////");
+        System.out.println("\n /////////////////// OPERACION REALIZADA CORRECTAMENTE /////////////////// \n");
+            
+        }else
+            System.out.println("La Criaturita no tiene Regalitos :( \n");
+        
+        transaction.commit();
     }
     
     //Asignar un regalo a una criaturita (o ninguna)
     
-    public void asignarRegaloAUnaCriaturita(){
+    public static void asignarRegaloAUnaCriaturita(){
         Transaction transaction = session.beginTransaction();
         Scanner sc = new Scanner(System.in);
         List<Criaturitas> listadoCriaturitas;
@@ -129,7 +154,7 @@ public class GestoraCriaturitas {
         
         listadoCriaturitas = (List<Criaturitas>)session.createQuery("FROM Criaturitas").list();
         listadoCriaturitas.stream().forEach((cr) -> {
-            System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre());
+            System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre() + "\n Regalito/s: " + cr.getRegalitos());
         });
 
         do{ 
@@ -150,7 +175,7 @@ public class GestoraCriaturitas {
         
         for(Regalos regalo:listadoRegalosSinCriaturita){
             if(regalo.getPropietario()==null)
-                System.out.println(regalo.toString());
+                System.out.println("Id: " + regalo.getId() + "\n" + regalo.toString() + "\n");
         }
 
         do{
@@ -173,16 +198,16 @@ public class GestoraCriaturitas {
 
         transaction.commit();
         
-        System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE ///////////////////");
+        System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE /////////////////// \n");
     }
     
     //Crear una nueva criaturita
     
-    public void crearNuevaCriaturita(){
+    public static void crearNuevaCriaturita(){
         Transaction transaction = session.beginTransaction();
         Scanner sc = new Scanner(System.in);
         String nombreCriaturita;
-        Byte idCriaturita = 0;
+        byte idCriaturita;
         
         do{
             System.out.println("Introduce el nombre de tu nueva Criaturita: ");
@@ -193,19 +218,20 @@ public class GestoraCriaturitas {
         
         //El id de la Criaturita es el siguiente al mas alto
         
-        Query query = session.createQuery("SELECT MAX(id) FROM Criaturitas");
-        query.setByte("id", idCriaturita + 1);
+        idCriaturita = (byte) session.createQuery("SELECT MAX(id) FROM Criaturitas").uniqueResult();
+        
+        idCriaturita++;
         
         Criaturitas criaturita = new Criaturitas(idCriaturita, nombreCriaturita); 
         session.save(criaturita);
         transaction.commit(); 
         
-        System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE ///////////////////");
+        System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE /////////////////// \n");
     }
     
     //Borrar una criaturita y todos sus regalos
     
-    public void borrarUnaCriaturitaYTodosSusRegalos(){
+    public static void borrarUnaCriaturitaYTodosSusRegalos(){
         Transaction transaction = session.beginTransaction();
         Scanner sc = new Scanner(System.in);
         List<Criaturitas> listadoCriaturitas;
@@ -244,6 +270,6 @@ public class GestoraCriaturitas {
         
         transaction.commit(); 
         
-        System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE ///////////////////");
+        System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE /////////////////// \n");
     }
 }
