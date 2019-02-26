@@ -7,7 +7,6 @@ package Gestoras;
 
 import Clases.Criaturitas;
 import Clases.Cuento;
-import Clases.Regalos;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -49,6 +48,8 @@ public class GestoraCuentos {
         listadoCriaturitas.stream().forEach((cr) -> {
             System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre() + "\n Cuento/s: " + cr.getListaCuentos());
         });
+        
+        //El usuario introduce el Id de la criaturita por teclado
 
         do{ 
             System.out.println("Elige una Criaturita introduciendo su Id: ");
@@ -57,6 +58,8 @@ public class GestoraCuentos {
                 System.out.println("Error, Introduce un Id Correcto!");
             }
         }while(idCriaturita<0);
+        
+        //Seleccionamos la Criaturita mediante el ID introducido
 
         Query query = session.createQuery("FROM Criaturitas WHERE id = :id");
         query.setByte("id", idCriaturita);
@@ -78,6 +81,8 @@ public class GestoraCuentos {
         listadoCuentos.stream().forEach((cuento) -> {
             System.out.println("\n Id: " + cuento.getId()+"\n Titulo: "+cuento.getTitulo()+"\n Autor: "+cuento.getAutor()+"\n Tema: "+cuento.getTema()+"\n Lectores: \n"+cuento.getListaLectores() + "\n");
         });
+        
+        //El usuario introduce el Id del cuento por teclado
 
         do{ 
             System.out.println("Elige un Cuento introduciendo su Id: ");
@@ -86,10 +91,14 @@ public class GestoraCuentos {
                 System.out.println("Error, Introduce un Id Correcto!");
             }
         }while(idCuento<0);
+        
+        //Seleccionamos el Cuento mediante el ID introducido
 
         Query query = session.createQuery("FROM Cuento WHERE id = :id");
         query.setInteger("id", idCuento);
         Cuento cuentoSeleccionado = (Cuento)query.uniqueResult();
+        
+        //Imprimimos el Cuento
         
         System.out.println("\n Id: " + cuentoSeleccionado.getId() + "\n Titulo: "+cuentoSeleccionado.getTitulo() + "\n Lectores: \n" + cuentoSeleccionado.getListaLectores() + "\n");       
     }
@@ -110,6 +119,8 @@ public class GestoraCuentos {
         listadoCriaturitas.stream().forEach((cr) -> {
             System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre() + "\n Cuento/s: " + cr.getListaCuentos());
         });
+        
+        //El usuario introduce el Id de la criaturita por teclado
 
         do{ 
             System.out.println("Elige una Criaturita introduciendo su Id: ");
@@ -118,6 +129,8 @@ public class GestoraCuentos {
                 System.out.println("Error, Introduce un Id Correcto!");
             }
         }while(idCriaturita<0);
+        
+        //Seleccionamos la Criaturita mediante el ID introducido
 
         Query query = session.createQuery("FROM Criaturitas WHERE id = :id");
         query.setByte("id", idCriaturita);
@@ -133,6 +146,8 @@ public class GestoraCuentos {
             criaturitaSeleccionada.getListaCuentos().stream().forEach((cuento) -> {
                 System.out.println("Id: " + cuento.getId() + " Titulo: " + cuento.getTitulo()); 
             });
+            
+            //El usuario introduce el Id del cuento por teclado
 
             do{
                 System.out.println("Selecciona el Cuento que le quieres quitar introduciendo su Id: ");
@@ -149,7 +164,7 @@ public class GestoraCuentos {
                 Cuento cuento = criaturitaSeleccionada.getListaCuentos().get(i);
                 if(cuento.getId()==idCuento) {
                     criaturitaSeleccionada.getListaCuentos().remove(i);
-                    break; //DUDAS
+                    break;
                 }
             }
 
@@ -164,7 +179,7 @@ public class GestoraCuentos {
                 }
             }
 
-            System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE ///////////////////");
+            System.out.println("\n /////////////////// OPERACION REALIZADA CORRECTAMENTE /////////////////// \n");
         }else
             System.out.println("La Criaturita no tiene Cuentos :( \n");
         
@@ -189,6 +204,8 @@ public class GestoraCuentos {
         listadoCriaturitas.stream().forEach((cr) -> {
             System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre() + "\n Cuento/s: " + cr.getListaCuentos());
         });
+        
+        //El usuario introduce el Id de la criaturita por teclado
 
         do{ 
             System.out.println("Elige una Criaturita introduciendo su Id: ");
@@ -197,6 +214,8 @@ public class GestoraCuentos {
                 System.out.println("Error, Introduce un Id Correcto!");
             }
         }while(idCriaturita<0);
+        
+        //Seleccionamos la Criaturita mediante el ID introducido
 
         Query query = session.createQuery("FROM Criaturitas WHERE id = :id");
         query.setByte("id", idCriaturita);
@@ -214,6 +233,8 @@ public class GestoraCuentos {
             }     
         }
 
+        //El usuario introduce el Id del cuento por teclado
+        
         do{
             System.out.println("Selecciona el Cuento que le quieres asignar introduciendo su Id: ");
             idCuento = sc.nextInt();
@@ -234,7 +255,7 @@ public class GestoraCuentos {
 
         transaction.commit();
         
-        System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE ///////////////////");
+        System.out.println("\n /////////////////// OPERACION REALIZADA CORRECTAMENTE /////////////////// \n");
         
     }
     
@@ -277,7 +298,7 @@ public class GestoraCuentos {
         session.save(cuento);
         transaction.commit(); 
         
-        System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE ///////////////////");
+        System.out.println("\n /////////////////// OPERACION REALIZADA CORRECTAMENTE /////////////////// \n");
     }
     
     //Borrar un cuento
@@ -295,6 +316,8 @@ public class GestoraCuentos {
         listadoCuentos.stream().forEach((cuento) -> {
             System.out.println("ID: "+cuento.getId()+"\n Titulo: "+cuento.getTitulo());
         });
+        
+        //El usuario introduce el Id del cuento por teclado
 
         do{ 
             System.out.println("Elige el Cuento a borrar introduciendo su Id: ");
@@ -324,6 +347,6 @@ public class GestoraCuentos {
         
         transaction.commit(); 
         
-        System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE ///////////////////");
+        System.out.println("\n /////////////////// OPERACION REALIZADA CORRECTAMENTE /////////////////// \n");
     }
 }

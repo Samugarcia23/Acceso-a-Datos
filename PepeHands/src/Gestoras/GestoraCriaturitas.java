@@ -48,6 +48,8 @@ public class GestoraCriaturitas {
         listadoCriaturitas.stream().forEach((cr) -> {
             System.out.println("\n Id: " + cr.getId() + "\n Nombre: " + cr.getNombre() + "\n Regalitos: \n" + cr.getRegalitos() + "\n");              
         });
+        
+        //El usuario introduce el Id de la criaturita por teclado
 
         do{ 
             System.out.println("Elige una Criaturita introduciendo su Id: ");
@@ -56,10 +58,14 @@ public class GestoraCriaturitas {
                 System.out.println("Error, Introduce un Id Correcto!");
             }
         }while(idCriaturita<0);
+        
+        //Seleccionamos la Criaturita mediante el ID introducido
 
         Query query = session.createQuery("FROM Criaturitas WHERE id = :id");
         query.setByte("id", idCriaturita);
         Criaturitas criaturitaSeleccionada = (Criaturitas)query.uniqueResult();
+        
+        //Imprimimos la Criaturita
         
         System.out.println("\n Id: " + criaturitaSeleccionada.getId() + "\n Nombre: " + criaturitaSeleccionada.getNombre() + "\n Regalitos: \n" + criaturitaSeleccionada.getRegalitos() + "\n");              
         
@@ -81,6 +87,8 @@ public class GestoraCriaturitas {
         listadoCriaturitas.stream().forEach((cr) -> {
             System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre() + "\n Regalito/s: " + cr.getRegalitos());
         });
+        
+        //El usuario introduce el Id de la criaturita por teclado
 
         do{ 
             System.out.println("Elige una Criaturita introduciendo su Id: ");
@@ -89,12 +97,15 @@ public class GestoraCriaturitas {
                 System.out.println("Error, Introduce un Id Correcto!");
             }
         }while(idCriaturita<0);
+        
+        //Seleccionamos la Criaturita mediante el ID introducido
 
         Query query = session.createQuery("FROM Criaturitas WHERE id = :id");
         query.setByte("id", idCriaturita);
         Criaturitas criaturitaSeleccionada = (Criaturitas)query.uniqueResult();
         
         //Listamos los regalos de la Criaturita seleccionada
+        
         if (!criaturitaSeleccionada.getRegalitos().isEmpty()){
             
             System.out.println(criaturitaSeleccionada.toString() + "\n");
@@ -103,34 +114,36 @@ public class GestoraCriaturitas {
             criaturitaSeleccionada.getRegalitos().stream().forEach((regalo) -> {
                 System.out.println("Id: " + regalo.getId() + " Denominacion: " + regalo.getDenominacion() + "\n"); 
             });
+            
+            //El usuario introduce el Id del Regalito por teclado           
         
             do{
-            System.out.println("Selecciona el Regalito que le quieres quitar introduciendo su Id: ");
-            idRegalo = sc.nextInt();
-            if (idRegalo<0){
-                System.out.println("Error, Introduce un Id Correcto!");
+                System.out.println("Selecciona el Regalito que le quieres quitar introduciendo su Id: ");
+                idRegalo = sc.nextInt();
+                if (idRegalo<0){
+                    System.out.println("Error, Introduce un Id Correcto!");
+                }
+            }while(idRegalo<0);
+
+            //Quitamos el Regalito a la Criaturita :(
+
+            for(int i=0; i<criaturitaSeleccionada.getRegalitos().size();i++)
+            {
+                Regalos regalo = criaturitaSeleccionada.getRegalitos().get(i);
+                if(regalo.getId()==idRegalo) {
+                    criaturitaSeleccionada.getRegalitos().remove(i);
+                    break;
+                }
             }
-        }while(idRegalo<0);
-        
-        //Quitamos el Regalito a la Criaturita :(
-        
-        for(int i=0; i<criaturitaSeleccionada.getRegalitos().size();i++)
-        {
-            Regalos regalo = criaturitaSeleccionada.getRegalitos().get(i);
-            if(regalo.getId()==idRegalo) {
-                criaturitaSeleccionada.getRegalitos().remove(i);
-                break;
-            }
-        }
-        
-        //Quitamos el propietario del Regalito
-        
-        query = session.createQuery("FROM Regalos WHERE id = :id");
-        query.setInteger("id", idRegalo);
-        Regalos regalo = (Regalos)query.uniqueResult();
-        regalo.setPropietario(null);
-        
-        System.out.println("\n /////////////////// OPERACION REALIZADA CORRECTAMENTE /////////////////// \n");
+
+            //Quitamos el propietario del Regalito
+
+            query = session.createQuery("FROM Regalos WHERE id = :id");
+            query.setInteger("id", idRegalo);
+            Regalos regalo = (Regalos)query.uniqueResult();
+            regalo.setPropietario(null);
+
+            System.out.println("\n /////////////////// OPERACION REALIZADA CORRECTAMENTE /////////////////// \n");
             
         }else
             System.out.println("La Criaturita no tiene Regalitos :( \n");
@@ -157,6 +170,8 @@ public class GestoraCriaturitas {
             System.out.println("ID: "+cr.getId()+"\n Nombre:"+cr.getNombre() + "\n Regalito/s: " + cr.getRegalitos());
         });
 
+        //El usuario introduce el Id de la criaturita por teclado
+        
         do{ 
             System.out.println("Elige una Criaturita introduciendo su Id: ");
             idCriaturita = sc.nextByte(); 
@@ -165,6 +180,8 @@ public class GestoraCriaturitas {
             }
         }while(idCriaturita<0);
 
+        //Seleccionamos la Criaturita mediante el ID introducido
+        
         Query query = session.createQuery("FROM Criaturitas WHERE id = :id");
         query.setByte("id", idCriaturita);
         Criaturitas criaturitaSeleccionada = (Criaturitas)query.uniqueResult();
@@ -177,6 +194,8 @@ public class GestoraCriaturitas {
             if(regalo.getPropietario()==null)
                 System.out.println("Id: " + regalo.getId() + "\n" + regalo.toString() + "\n");
         }
+       
+        //El usuario introduce el Id del Regalito por teclado  
 
         do{
             System.out.println("Selecciona el Regalito que le quieres asignar introduciendo su Id: ");
@@ -244,6 +263,8 @@ public class GestoraCriaturitas {
         listadoCriaturitas.stream().forEach((criaturita) -> {
             System.out.println("ID: "+criaturita.getId()+"\n Nombre:"+criaturita.getNombre());
         });
+        
+        //El usuario introduce el Id de la criaturita por teclado
 
         do{ 
             System.out.println("Elige la Criaturita a borrar introduciendo su Id: ");

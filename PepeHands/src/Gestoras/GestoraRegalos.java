@@ -5,10 +5,8 @@
  */
 package Gestoras;
 
-import Clases.Criaturitas;
 import Clases.Regalos;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -33,8 +31,9 @@ public class GestoraRegalos {
         String hqlQuery = "FROM Regalos";
         Query query = session.createQuery(hqlQuery);
         ArrayList<Regalos> listado = new ArrayList<>(query.list());
-        for(Regalos regalo : listado)
+        listado.forEach((regalo) -> {
             System.out.println("\n Id: " + regalo.getId()+"\n Denominacion: "+regalo.getDenominacion()+"\n Ancho: "+regalo.getAncho()+"\n Largo: "+regalo.getLargo()+"\n Alto: "+regalo.getAlto()+"\n Tipo: "+regalo.getTipo()+"\n Edad mínima: "+regalo.getEdadMinima()+"\n Precio: "+regalo.getPrecio() + "\n");
+        });
     }
     
     //Crear un nuevo regalo
@@ -107,7 +106,7 @@ public class GestoraRegalos {
         session.save(regalo);
         transaction.commit(); 
         
-        System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE ///////////////////");
+        System.out.println("\n /////////////////// OPERACION REALIZADA CORRECTAMENTE /////////////////// \n");
     }
     
     //Borrar un regalo
@@ -125,6 +124,8 @@ public class GestoraRegalos {
         listadoRegalos.stream().forEach((regalo) -> {
             System.out.println("ID: "+regalo.getId()+"\n Denominacion:"+regalo.getDenominacion());
         });
+        
+        //El usuario introduce el Id del regalo por teclado
 
         do{ 
             System.out.println("Elige el Regalo a borrar introduciendo su Id: ");
@@ -140,7 +141,7 @@ public class GestoraRegalos {
         
         transaction.commit(); 
         
-        System.out.println("/////////////////// OPERACION REALIZADA CORRECTAMENTE ///////////////////");
+        System.out.println("\n /////////////////// OPERACION REALIZADA CORRECTAMENTE /////////////////// \n");
     }
     
 }
