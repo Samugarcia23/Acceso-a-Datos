@@ -28,7 +28,7 @@ public class MainMenu {
             do{
                 GestoraMenu.mostrarMenu();
                 opcion = sc.nextInt();
-                if (opcion < 0 && opcion >9){
+                if (opcion < 0 && opcion > 9){
                     System.out.println("¡Solo entre 1 o 9, o 0 para salir!");
                 }
             }while(opcion < 0 && opcion >9); 
@@ -99,9 +99,7 @@ public class MainMenu {
                     GestoraCuentos.borrarCuento();
                     break;
                     
-            }
-
-             
+            }   
             
         }while(opcion != 0);
     }
